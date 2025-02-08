@@ -24,14 +24,19 @@ namespace LearningToCodeMVC.Controllers
             return View(dogVm);
         }
 
+        [HttpPost]
         public IActionResult CreateDog(DogViewModel dogViewModel)
         {
+            if (dogViewModel == null || string.IsNullOrEmpty(dogViewModel.Name))
+            {
+                ModelState.AddModelError("", "Dog name is required.");
+                return View("Create", dogViewModel);
+            }
+
             dogs.Add(dogViewModel);
-            return RedirectToAction(nameof(Index)); 
-
-           // return View("Index");
-
+            return RedirectToAction(nameof(Index));
         }
+
 
         public string Hello()
         {
